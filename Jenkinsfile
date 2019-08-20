@@ -1,26 +1,36 @@
 pipeline {
   agent any
   stages {
-        stage('Compile') {
-            steps {
-                bat 'gradlew bootJar'
-            }
-        }
+    stage('Compile') {
+      steps {
+        bat 'gradlew bootJar'
+      }
+    }
+    stage('Unit Tests') {
+      parallel {
         stage('Unit Tests') {
-            steps {
-                bat 'gradlew test'
-            }
-            post {
-                always {
-                    junit '**/build/test-results/test/TEST-*.xml'
-                }
-            }
-        }
+          post {
+            always {
+              junit '**/build/test-results/test/TEST-*.xml'
 
-        stage('SonarQube analysis') {
-            steps {
-                bat 'gradlew sonarqube'
             }
+
+          }
+          steps {
+            bat 'gradlew test'
+          }
         }
+        stage('SonarQube Analysis') {
+          steps {
+            sh 'gradlew sonarqube'
+          }
+        }
+      }
+    }
+    stage('SonarQube analysis') {
+      steps {
+        bat 'gradlew sonarqube'
+      }
+    }
   }
 }
