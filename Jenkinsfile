@@ -22,7 +22,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
           steps {
-            sh 'gradlew sonarqube'
+            bat 'gradlew sonarqube'
           }
         }
       }
