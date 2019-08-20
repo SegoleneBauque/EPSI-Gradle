@@ -1,5 +1,8 @@
 # Ignore Gradle project-specific cache directory
 .gradle
+.idea
+jenkins.war
+gradleSpring.iml
 
 # Ignore Gradle build output directory
 build
